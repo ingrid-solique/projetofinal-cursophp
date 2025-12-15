@@ -1,0 +1,12 @@
+- Login
+- Cadastro de Usuário
+
+- Tela Inicial (restrito) OK
+- Cadastrar Produtos OK
+- Listar Produtos OK
+- Carrinho de compras OK
+- Exibir dados do Perfil OK
+- Realização de pagamento OK
+- Logout OK
+- Gerar PDF OK
+- Formulário de Contato - enviar e-mail 

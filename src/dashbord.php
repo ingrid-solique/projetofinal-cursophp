@@ -41,6 +41,14 @@ $result = $conexao->query($sql);
             display: flex;
             justify-content: center;
         }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--white);
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
 
         header {
             width: 100%;
@@ -82,15 +90,6 @@ $result = $conexao->query($sql);
             background: #e5e7eb;
         }
 
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: var(--white);
-            padding: 25px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
 
         h2 {
             margin-bottom: 20px;
@@ -217,6 +216,7 @@ $result = $conexao->query($sql);
             <div class="logo">Minha Loja</div>
 
             <nav class="menu">
+                <a href="../index.php">Home</a>
                 <a href="logout.php">Sair</a>
                 <a href="perfil.php" class="cart">Perfil</a>
             </nav>

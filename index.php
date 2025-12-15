@@ -91,9 +91,9 @@ $result = $conexao->query($sql);
 
         .cart {
             background: var(--primary);
+            color: #fff;
             padding: 8px 12px;
             border-radius: 6px;
-            color: #fff;
             font-size: 15px;
             font-weight: bold;
         }
@@ -197,11 +197,12 @@ $result = $conexao->query($sql);
         <nav class="menu">
             <?php if (isset($_SESSION['logado']) && $_SESSION['logado']) : ?>
                 <a href="src/logout.php">Sair</a>
-                <a href="src/perfil.php" class="cart">Perfil</a>
+                <a href="src/perfil.php">Perfil</a>
             <?php else: ?>
                 <a href="src/login.php">Login</a>
                 <a href="src/cadastrarUsuario.php">Cadastre-se</a>
             <?php endif; ?>
+            <a href="src/contato.php">Contato</a>
             <a href="src/carrinho.php" class="cart">Carrinho</a>
         </nav>
     </header>

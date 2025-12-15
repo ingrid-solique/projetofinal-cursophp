@@ -130,6 +130,7 @@ $row = $result->fetch_assoc();
 
         <!-- Ações -->
         <div class="profile-actions">
+            <a class="edit-btn" href="meusPedidos.php">Meus Pedidos</a>
             <a class="edit-btn" href="../index.php">Home</a>
         </div>
 

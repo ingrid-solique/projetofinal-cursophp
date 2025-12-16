@@ -187,20 +187,24 @@ foreach($_SESSION['carrinho'] as $produto_id) {
         <div class="cart-items">
             <?php 
             $total = 0;
-            foreach($produtos_no_carrinho as $produto): ?>
+            foreach($produtos_no_carrinho as $produto): 
+            $preco = $produto['preco'];
+            $quantidade = isset($_SESSION['quantidades']) ? $_SESSION['quantidades'][array_search($produto['id'], $_SESSION['carrinho'])] : 1;
+            $precototal = $preco * $quantidade;
+            ?>
             <div class="cart-item">
                 <div class="item-info">
                     <h3><?php echo $produto['nome']; ?></h3>
-                    <p class="price">RS <?php echo number_format($produto['preco'], 2, ',', '.'); ?></p>
-                    
+                    <p class="price">RS <?php echo number_format($preco, 2, ',', '.'); ?></p>
                 </div>
 
                 <div class="item-actions">
-                    <input type="number" name="quantidade" value="1" min="1">
-                    <span class="subtotal">RS <?php echo number_format($produto['preco'], 2, ',', '.'); ?></span>
+                    <input type="number" name="quantidade" value="<?php echo $quantidade; ?>" readonly>
+                    <span class="subtotal">RS <?php echo number_format($precototal, 2, ',', '.'); ?></span>
                     <a class="remove-btn" href='deletarProdutoCarrinho.php?id=<?php echo $produto['id']; ?>'>Remover</a>
                     <?php 
-                        $total += $produto['preco'];?>
+                        $total += $precototal;
+                        $quantidade = 0; ?>
                 </div>
             </div>
             <?php 
@@ -227,7 +231,7 @@ foreach($_SESSION['carrinho'] as $produto_id) {
             </div>
 
             <button class="checkout-btn"><a href="../index.php">Continuar Comprando</a></button>
-            <button class="checkout-btn"><a href="../src/pagamento.php">Finalizar Compra</a></button>
+            <button class="checkout-btn"><a href="pagamento.php">Finalizar Compra</a></button>
         </div>
     </div>
 </div>

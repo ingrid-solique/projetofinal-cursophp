@@ -151,26 +151,26 @@
 
         <!-- Formulário -->
         <div class="contact-form">
-            <form action="#" method="post">
+            <form action="processaContato.php" method="post">
 
                 <div class="form-group">
                     <label>Nome</label>
-                    <input type="text" placeholder="Seu nome" required>
+                    <input type="text" name="nome" placeholder="Seu nome" required>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" placeholder="Seu email" required>
+                    <input type="email" name="email" placeholder="Seu email" required>
                 </div>
 
                 <div class="form-group">
                     <label>Assunto</label>
-                    <input type="text" placeholder="Assunto">
+                    <input type="text" name="assunto" placeholder="Assunto">
                 </div>
 
                 <div class="form-group">
                     <label>Mensagem</label>
-                    <textarea placeholder="Digite sua mensagem" required></textarea>
+                    <textarea name="mensagem" placeholder="Digite sua mensagem" required></textarea>
                 </div>
 
                 <button type="submit" class="btn-submit">Enviar Mensagem</button>

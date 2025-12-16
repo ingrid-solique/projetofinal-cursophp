@@ -1,5 +1,5 @@
-- Login
-- Cadastro de Usuário
+- Login OK
+- Cadastro de Usuário OK
 
 - Tela Inicial (restrito) OK
 - Cadastrar Produtos OK
@@ -9,5 +9,5 @@
 - Realização de pagamento OK
 -- Logout OK
 - Gerar PDF OK
-- Formulário de Contato - enviar e-mail 
--- Meus pedidos
+- Formulário de Contato - enviar e-mail OK
+-- Meus pedidos OK

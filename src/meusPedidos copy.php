@@ -2,6 +2,11 @@
 require_once 'verificaAutenticacao.php';
 require_once 'conexao.php';
 
+$id = $_SESSION['idUsuario'];
+$sql = "SELECT * FROM pedidos WHERE idUsuario = $id";
+$stms = $conexao->prepare($sql);
+$result = $conexao->query($sql);
+
 function buscarProduto($idProduto) {
     global $conexao;
     $stmt = $conexao->prepare("SELECT * FROM produtos WHERE id = ?");
@@ -10,33 +15,6 @@ function buscarProduto($idProduto) {
     $res = $stmt->get_result();
     if ($res->num_rows > 0) {
         return $res->fetch_assoc();
-    }
-}
-
-$id = $_SESSION['idUsuario'];
-$sql = "SELECT * FROM pedidos WHERE idUsuario = $id";
-$stms = $conexao->prepare($sql);
-$result = $conexao->query($sql);
-
-if ($result->num_rows > 0) {
-    $codigosPedidos[] = [];
-    $i = 0;
-    $j = 0;
-    while ($row = $result->fetch_assoc()) {
-        if( in_array($row['codPedido'], $codigosPedidos) === false) {
-            $codigosPedidos[$j++] = $row['codPedido'];
-            $i = 0;
-        }
-        $rowProduto = buscarProduto($row['idProduto']);
-        if ($rowProduto) {
-            $produtos[$row['codPedido']][$i++] = [
-                'nome' => $rowProduto['nome'],
-                'quantidade' => $row['quantidade'],
-                'preco' => $rowProduto['preco']
-            ];
-        }
-        
-        
     }
 }
 
@@ -259,42 +237,39 @@ if ($result->num_rows > 0) {
         <h2>Lista de Pedidos</h2>
 
         <table>
-            <?php
-            if (!empty($produtos)) {
-            for ($j=0; $j < count($codigosPedidos); $j++) : 
-                $cod = $codigosPedidos[$j];    
-            ?>
-                <thead>
+            <thead>
                 <tr>
-                    <th colspan="4"><strong>Pedido: <?php echo $cod; ?></strong></td>       
-                </tr>
-                <tr>
+                    <th>Codigo Pedido</th>
                     <th>Produto</th>
                     <th>Quantidade</th>
                     <th>Preco</th>
                 </tr>
-                
-                </thead>
-                <tbody>
+            </thead>
+
+            <tbody>
                 <?php
                 $total = 0;
-                for ($i = 0; $i < count($produtos[$cod]); $i++) :
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $pedidoCodigo = $row['codPedido'];
+                        $rowProduto = buscarProduto($row['idProduto']);
                         echo "<tr>";
-                        echo "<td>" . $produtos[$cod][$i]['nome'] . "</td>";
-                        echo "<td>" . $produtos[$cod][$i]['quantidade'] . "</td>";
-                        echo "<td>" . number_format($produtos[$cod][$i]['preco'], 2, ',', '.') . "</td>";
+                        echo "<td>" . $pedidoCodigo . "</td>";
+                        echo "<td>" . $rowProduto['nome'] . "</td>";
+                        echo "<td>" . $row['quantidade'] . "</td>";
+                        echo "<td>" . number_format($rowProduto['preco'], 2, ',', '.') . "</td>";
                         echo "<td></td>";
                         echo "</tr>";
-                        $total += $produtos[$cod][$i]['preco'] * $produtos[$cod][$i]['quantidade'];
-                endfor;
-                echo "<tr>";
-                echo "<td colspan='3'><strong>Total</strong></td>";
-                echo "<td><strong>R$ " . number_format($total, 2, ',', '.') . "</strong></td>";
-                echo "</tr>";
-            endfor;
-        } else {
-            echo "<tr><td colspan='3'>Nenhum pedido encontrado.</td></tr>";
-        }?>
+                        $total += $rowProduto['preco'] * $row['quantidade'];
+                    }
+                    echo "<tr>";
+                    echo "<td colspan='3'><strong>Total</strong></td>";
+                    echo "<td><strong>R$ " . number_format($total, 2, ',', '.') . "</strong></td>";
+                    echo "</tr>";
+                } else {
+                    echo "<tr><td colspan='3'>Nenhum produto encontrado.</td></tr>";
+                }
+                ?>
             </tbody>
         </table>
     </div>

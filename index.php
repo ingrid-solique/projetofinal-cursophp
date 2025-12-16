@@ -186,6 +186,15 @@ $result = $conexao->query($sql);
         .btn-cart:hover {
             background: var(--primary-hover);
         }
+
+        .quantidade {
+            width: 60px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
     </style>
 
 </head>
@@ -220,6 +229,7 @@ $result = $conexao->query($sql);
                         <div class="price">RS <?php echo number_format($row['preco'], 2, ',', '.'); ?></div>
 
                         <form action="src/addCarrinho.php" method="GET">
+                            <input type="number" class="quantidade" name="quantidade" value="1" min="1">
                             <input type="hidden" name="produto_id" value="<?php echo $row['id']; ?>">
                             <button type="submit" class="btn-cart">Adicionar ao carrinho</button>
                         </form>

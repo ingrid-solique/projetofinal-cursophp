@@ -3,7 +3,7 @@
 session_start();
 require_once __DIR__ . '/src/conexao.php';
 
-$sql = "SELECT * FROM produtos";
+$sql = "SELECT * FROM produtos where quantidade > 0";
 $stms = $conexao->prepare($sql);
 $result = $conexao->query($sql);
 

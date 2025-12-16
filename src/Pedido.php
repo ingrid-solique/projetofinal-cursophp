@@ -8,7 +8,7 @@ class Pedido {
         $this->conexao = $conexao;
     }
 
-        public function getTotal() {
+    public function getTotal() {
         return $this->total;
     }
 
@@ -17,6 +17,35 @@ class Pedido {
         $stmt->bind_param("iisi", $idProduto, $quantidade, $codPedido, $idUsuario);
         if (!$stmt->execute()) {
             die("Erro ao adicionar pedido: " . $this->conexao->error);
+        }
+        $stmt->close();
+    }
+
+    public function verificaEstoque($idProduto, $quantidadeSolicitada) {
+        $stmt = $this->conexao->prepare("SELECT quantidade, nome FROM produtos WHERE id = ?");
+        $stmt->bind_param("i", $idProduto);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $produto = $result->fetch_assoc();
+        $stmt->close();
+
+        if ($produto['quantidade'] < $quantidadeSolicitada) {
+            echo "<script>
+                    alert('Estoque insuficiente esse produto. Estoque disponivel: $produto[quantidade]');
+                    window.location.href = '../index.php';
+                  </script>";
+            exit();
+        } else {
+            // Atualiza o estoque
+            $this->baixarEstoque($idProduto, $quantidadeSolicitada);
+        }
+    }
+
+    public function baixarEstoque($idProduto, $quantidadeVendida) {
+        $stmt = $this->conexao->prepare("UPDATE produtos SET quantidade = quantidade - ? WHERE id = ?");
+        $stmt->bind_param("ii", $quantidadeVendida, $idProduto);
+        if (!$stmt->execute()) {
+            die("Erro ao baixar estoque: " . $this->conexao->error);
         }
         $stmt->close();
     }

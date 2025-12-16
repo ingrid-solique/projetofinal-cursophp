@@ -6,6 +6,7 @@ if(!isset($_GET['produto_id'])) {
 }
 
 require_once 'conexao.php';
+require_once 'Pedido.php';
 
 session_start();
 
@@ -15,6 +16,10 @@ if(!isset($_SESSION['carrinho'])) {
 if(!isset($_SESSION['quantidades'])) {
     $_SESSION['quantidades'] = [];
 }
+
+$pedido = new Pedido($conexao);
+
+$pedido->verificaEstoque($_GET['produto_id'], $_GET['quantidade']);
 
 if(in_array(intval($_GET['produto_id']), $_SESSION['carrinho'])) {
     $_SESSION['quantidades'][array_search($_GET['produto_id'], $_SESSION['carrinho'])] += intval($_GET['quantidade']);

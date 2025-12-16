@@ -32,6 +32,13 @@ $codPedido = uniqid('PED-');
 $pedido = new Pedido($conexao);
 foreach($produtos_no_carrinho as $produto) {
     $qtd = $_SESSION['quantidades'][array_search($produto['id'], $_SESSION['carrinho'])];
+    if (!$pedido->baixarEstoque($produto['id'], $qtd)) {
+        echo "<script>
+                alert('Estoque insuficiente para o produto: $produto[nome]. Pedido nao finalizado.');
+                window.location.href = 'carrinho.php';
+              </script>";
+        exit();
+    }
     $pedido->addPedido($produto['id'], $_SESSION['idUsuario'], $codPedido, $qtd);
 }
 
